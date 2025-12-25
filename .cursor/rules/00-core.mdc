@@ -1,0 +1,50 @@
+---
+alwaysApply: true
+---
+# Project Rules: AI Agent Release Readiness QA
+
+## Project Intent
+This repository implements a deterministic QA-based release readiness assessment
+for AI agent and LLM-based systems.
+
+The goal is NOT to:
+- build an AI automation framework
+- judge model answers using another LLM
+- replace testing with AI
+
+The goal IS to:
+- extract signals from existing test runs and artifacts
+- assess behavioral stability and regression risk
+- provide a clear release readiness score and recommendation
+
+## Core Principles
+- Deterministic logic first. No LLM-based judging unless explicitly requested.
+- No new test creation. Only analyze what already exists.
+- Prefer explainable metrics over "smart" heuristics.
+- Every score must be traceable to concrete evidence.
+- Reports must be understandable by QA, PMs, and technical leadership.
+
+## Architecture Rules
+- Core readiness logic must be reusable and isolated.
+- Pack-specific logic (AI/LLM interpretation) must live in a separate layer.
+- Input data formats must be explicit and validated.
+- Optional AI artifacts (conversation logs, intents) must degrade gracefully.
+
+## Implementation Rules
+- Propose a plan before implementing multi-file changes.
+- Keep commits small and logically isolated.
+- Add tests for scoring, parsing, and risk classification.
+- Prefer simple Python structures over complex abstractions.
+
+## Reporting Rules
+- Reports must include:
+  - readiness score (0–100)
+  - risk level (low / medium / high)
+  - key behavioral risks
+  - release recommendation
+- Always state data availability and assumptions explicitly.
+
+## Tone & Language
+- Professional QA / engineering tone.
+- No marketing language in code or reports.
+- Clear, concise, factual wording.
