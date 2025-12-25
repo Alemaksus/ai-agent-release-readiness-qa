@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-agent-release-readiness-qa"
+version = "0.1.0"
+description = "Deterministic QA-based release readiness assessment for AI agents and LLM systems"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Aleksandr Maksakov" }
+]
+
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*", "adapters*", "cli*"]

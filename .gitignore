@@ -11,5 +11,7 @@ env/
 .pytest_cache/
 dist/
 build/
-
-
+# runtime artifacts
+reports/*
+!reports/.gitkeep
+.pytest_cache/

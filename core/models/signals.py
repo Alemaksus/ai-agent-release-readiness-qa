@@ -1,5 +1,6 @@
 """Signal abstractions used by scoring."""
 
+from __future__ import annotations
 from enum import Enum
 from typing import Any, Optional
 
@@ -66,7 +67,7 @@ class Signal:
     name: str
     value: float
     description: str
-    evidence: List[str]  # Traceable evidence items
+    evidence: list[str]  # Traceable evidence items
     metadata: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
