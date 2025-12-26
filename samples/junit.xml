@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="sample" tests="4" failures="2" errors="0" skipped="1" time="6.23">
+  <testcase classname="sample" name="TC-001 test_login_ok" time="1.23" />
+  <testcase classname="sample" name="TC-002 test_checkout_ok" time="4.50">
+    <failure message="assertion failed">checkout failed</failure>
+  </testcase>
+  <testcase classname="sample" name="TC-003 test_refund_intent" time="0.00">
+    <skipped />
+  </testcase>
+  <testcase classname="sample" name="TC-999 test_unknown" time="0.50">
+    <failure message="unknown testcase">unmapped failure</failure>
+  </testcase>
+</testsuite>
+
+

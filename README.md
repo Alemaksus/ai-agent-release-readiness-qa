@@ -1,42 +1,66 @@
-# AI Agent Release Readiness QA
+# AI Agent Release Readiness QA (deterministic)
 
-## What this is
-- A deterministic, explainable QA-oriented release readiness assessment system for AI agent and LLM-based products.
-- Provides a reusable core engine for readiness scoring and reporting.
-- Allows domain-specific adapters to add AI-agent signals without changing the core.
+## What it does
 
-## What this is NOT
-- Not an AI judge or LLM-based scorer.
-- Not a test generation tool.
-- Not a generic automation framework or marketing gadget.
+- Computes **deterministic QA metrics** from test cases + test results (no LLM required).
+- Produces a **readiness score (0–100)**, **risk level**, and **release recommendation**.
+- Renders a **Markdown report** and saves it to a path you choose.
 
 ## Inputs
-- **Required:** Existing test results (pass/fail status, timestamps, durations).
-- **Optional:** AI artifacts such as conversation logs, intent data, flow traces. The system must degrade gracefully when these are absent.
+
+- **CSV test cases**: see `samples/test_cases.csv`
+- **JUnit XML results**: see `samples/junit.xml`
 
 ## Outputs
-- Readiness score (0–100) with risk level and release recommendation.
-- Traceable signal breakdown (stability, regression, coverage).
-- Human-readable report (selected output formats (e.g., JSON, Markdown)).
 
-## Architecture (core vs adapters)
-- **Core:** Models, parsers, scoring, reporting — deterministic and domain-agnostic.
-- **Adapters:** Domain-specific signal extraction. AI-agent adapter uses optional artifacts; generic adapter works with basic test results. Core remains unaware of AI specifics.
+- **Score / risk / recommendation** (derived deterministically from current-run metrics)
+- **Markdown report** written to `--out`
 
 ## Quickstart
-> Note: Commands are placeholders; wiring and dependencies will be added later.
-```bash
-# Set up environment (placeholder)
-python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-pip install -r requirements.txt
 
-# Run assessment (placeholder CLI entry)
-python -m cli.main --results path/to/test_results.json
+### Windows (PowerShell) — Quickstart
+
+```powershell
+cd C:\path\to\ai-agent-release-readiness-qa
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements-dev.txt
+python -m pip install -e .
+pytest
+python -m cli.main --demo --out reports\report.md
 ```
 
-## Roadmap
-- Complete core data models and input validation.
-- Finalize deterministic scoring and reporting.
-- Integrate AI-agent signals with graceful degradation.
-- Provide minimal reproducible examples and CLI wiring.
+### macOS/Linux (bash) — Quickstart
+
+```bash
+cd /path/to/ai-agent-release-readiness-qa
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements-dev.txt
+python -m pip install -e .
+pytest
+python -m cli.main --demo --out reports/report.md
+```
+
+## Run with files (CSV + JUnit)
+
+The `samples/` folder contains runnable inputs.
+
+### Windows (PowerShell) — File mode
+
+```powershell
+python -m cli.main --cases samples\test_cases.csv --junit samples\junit.xml --out reports\from_files.md
+```
+
+### macOS/Linux (bash) — File mode
+
+```bash
+python -m cli.main --cases samples/test_cases.csv --junit samples/junit.xml --out reports/from_files.md
+```
+
+## Notes / limitations
+
+- **Deterministic only**: no LLM judging, no network calls.
+- **Current-run only**: score is computed from the provided results (no trend/history analysis).
