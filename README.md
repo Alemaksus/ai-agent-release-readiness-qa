@@ -10,6 +10,7 @@
 
 - **CSV test cases**: see `samples/test_cases.csv`
 - **JUnit XML results**: see `samples/junit.xml`
+- **Optional AI/LLM transcript (JSON)**: see `samples/llm_transcript.json` (keys per turn: `user_text`, `assistant_text`, optional `assistant_label`, `expected_schema_valid`, `refusal`, `tool_calls`)
 
 ## Outputs
 
@@ -58,6 +59,12 @@ python -m cli.main --cases samples\test_cases.csv --junit samples\junit.xml --ou
 
 ```bash
 python -m cli.main --cases samples/test_cases.csv --junit samples/junit.xml --out reports/from_files.md
+```
+
+## Optional AI/LLM transcript signals
+
+```powershell
+python -m cli.main --demo --transcript samples\llm_transcript.json --out reports\with_ai.md
 ```
 
 ## Notes / limitations

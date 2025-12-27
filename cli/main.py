@@ -20,6 +20,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Run with built-in demo data (no input files).",
     )
+    p.add_argument(
+        "--transcript",
+        default=None,
+        help="Optional path to AI/LLM transcript JSON for extra stability signals.",
+    )
     p.add_argument("--junit", default=None, help="Path to JUnit XML.")
     p.add_argument("--cases", default=None, help="Path to test cases CSV.")
     return p.parse_args()
@@ -29,7 +34,7 @@ def main() -> int:
     args = parse_args()
 
     if args.demo:
-        saved = run_demo(args.out)
+        saved = run_demo(args.out, transcript_path=args.transcript)
         print(f"OK: saved report to {saved}")
         return 0
 
@@ -44,7 +49,12 @@ def main() -> int:
             "  python -m cli.main --cases <path> --junit <path> --out reports/report.md"
         )
 
-    saved = run_from_files(cases_path=args.cases, junit_path=args.junit, out_path=args.out)
+    saved = run_from_files(
+        cases_path=args.cases,
+        junit_path=args.junit,
+        out_path=args.out,
+        transcript_path=args.transcript,
+    )
     print(f"OK: saved report to {saved}")
     return 0
 

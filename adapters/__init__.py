@@ -1,16 +1,9 @@
-"""Domain-specific adapters for signal extraction."""
+"""Domain-specific adapters for signal extraction.
 
-from adapters import base, generic, ai_agent  # Placeholder imports
+Important:
+This package must be importable without pulling optional adapters that may depend on
+unfinished modules. Avoid eager imports here to keep adapters modular and tests stable.
+"""
 
-__all__ = ["base", "generic", "ai_agent"]
-
-"""Domain-specific adapters for signal extraction."""
-
-from adapters.base import BaseAdapter
-from adapters.generic import GenericAdapter
-
-__all__ = [
-    "BaseAdapter",
-    "GenericAdapter",
-]
+__all__: list[str] = []
 

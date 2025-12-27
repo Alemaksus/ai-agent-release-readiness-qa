@@ -1,0 +1,72 @@
+{
+  "turns": [
+    {
+      "user_text": "Run the smoke suite and summarize results.",
+      "assistant_text": "Sure. Summary: 1 failed, 1 skipped, 1 unmapped. Risk: high.",
+      "assistant_label": "summary_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": [
+        {"name": "compute_metrics", "status": "ok"}
+      ]
+    },
+    {
+      "user_text": "Generate a JSON report with fields: score, risk, recommendation.",
+      "assistant_text": "{\"score\": 62, \"risk\": \"high\", \"recommendation\": \"reject\"}",
+      "assistant_label": "json_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": []
+    },
+    {
+      "user_text": "Generate a JSON report with fields: score, risk, recommendation.",
+      "assistant_text": "Score is 62, risk is high, recommend reject.",
+      "assistant_label": "json_missing_fields",
+      "expected_schema_valid": false,
+      "refusal": false
+    },
+    {
+      "user_text": "Can you access production logs?",
+      "assistant_text": "I can't access production logs.",
+      "assistant_label": "refusal",
+      "expected_schema_valid": true,
+      "refusal": true,
+      "tool_calls": []
+    },
+    {
+      "user_text": "Call the tool to fetch artifacts.",
+      "assistant_text": "Calling tool...",
+      "assistant_label": "tool_error",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": [
+        {"name": "fetch_artifacts", "status": "error"}
+      ]
+    },
+    {
+      "user_text": "Call the tool to fetch artifacts.",
+      "assistant_text": "Calling tool...",
+      "assistant_label": "tool_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": [
+        {"name": "fetch_artifacts", "status": "ok"}
+      ]
+    },
+    {
+      "user_text": "Return the report in the expected schema again.",
+      "assistant_label": "missing_assistant_text",
+      "expected_schema_valid": true,
+      "refusal": false
+    },
+    {
+      "user_text": "Summarize risk in one sentence.",
+      "assistant_text": "High risk due to failures and traceability gaps.",
+      "assistant_label": "summary_ok",
+      "refusal": false,
+      "tool_calls": []
+    }
+  ]
+}
+
+

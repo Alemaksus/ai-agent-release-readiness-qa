@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from adapters.llm_readiness.extractors import extract_all_signals
+from adapters.llm_readiness.load_transcript import load_transcript
+from adapters.llm_readiness.summarize import signals_to_markdown
 from core.models.normalized import NormalizedData
 from core.models.normalizer import normalize
 from core.models.readiness import build_readiness_report
@@ -53,7 +56,7 @@ def _build_demo_data() -> NormalizedData:
     )
 
 
-def run_demo(out_path: str | Path) -> Path:
+def run_demo(out_path: str | Path, *, transcript_path: str | Path | None = None) -> Path:
     """
     Deterministic demo pipeline:
       demo data -> compute_metrics -> build_readiness_report -> build_markdown_report -> save_markdown_report
@@ -64,12 +67,13 @@ def run_demo(out_path: str | Path) -> Path:
     metrics = compute_metrics(data)
     report = build_readiness_report(metrics)
     markdown = build_markdown_report(report)
+    markdown = _maybe_append_transcript_section(markdown, transcript_path=transcript_path)
     save_markdown_report(str(out_path), markdown)
 
     return out_path
 
 
-def run_from_files(*, cases_path: str | Path, junit_path: str | Path, out_path: str | Path) -> Path:
+def run_from_files(*, cases_path: str | Path, junit_path: str | Path, out_path: str | Path, transcript_path: str | Path | None = None) -> Path:
     """
     Deterministic file-based pipeline:
       parse CSV + JUnit -> normalize -> compute_metrics -> build_readiness_report -> build_markdown_report -> save_markdown_report
@@ -83,8 +87,24 @@ def run_from_files(*, cases_path: str | Path, junit_path: str | Path, out_path: 
     metrics = compute_metrics(data)
     report = build_readiness_report(metrics)
     markdown = build_markdown_report(report)
+    markdown = _maybe_append_transcript_section(markdown, transcript_path=transcript_path)
     save_markdown_report(str(out_path), markdown)
 
     return out_path
+
+
+def _maybe_append_transcript_section(markdown: str, *, transcript_path: str | Path | None) -> str:
+    if not transcript_path:
+        return markdown
+
+    transcript = load_transcript(str(transcript_path))
+    signals = extract_all_signals(transcript)
+    section = [
+        "## AI/LLM Stability Signals (optional)",
+        "",
+        signals_to_markdown(signals).rstrip(),
+        "",
+    ]
+    return markdown.rstrip() + "\n\n" + "\n".join(section)
 
 
