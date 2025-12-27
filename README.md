@@ -67,6 +67,10 @@ python -m cli.main --cases samples/test_cases.csv --junit samples/junit.xml --ou
 python -m cli.main --demo --transcript samples\llm_transcript.json --out reports\with_ai.md
 ```
 
+```powershell
+python -m cli.main --demo --transcript samples\llm_transcript.json --baseline-transcript samples\llm_transcript_baseline.json --out reports\with_ai_drift.md
+```
+
 ## Notes / limitations
 
 - **Deterministic only**: no LLM judging, no network calls.

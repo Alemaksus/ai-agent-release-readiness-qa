@@ -25,6 +25,11 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Optional path to AI/LLM transcript JSON for extra stability signals.",
     )
+    p.add_argument(
+        "--baseline-transcript",
+        default=None,
+        help="Optional baseline AI/LLM transcript JSON for drift comparison (requires --transcript).",
+    )
     p.add_argument("--junit", default=None, help="Path to JUnit XML.")
     p.add_argument("--cases", default=None, help="Path to test cases CSV.")
     return p.parse_args()
@@ -33,8 +38,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
 
+    if args.baseline_transcript and not args.transcript:
+        raise SystemExit("--baseline-transcript requires --transcript.")
+
     if args.demo:
-        saved = run_demo(args.out, transcript_path=args.transcript)
+        saved = run_demo(args.out, transcript_path=args.transcript, baseline_transcript_path=args.baseline_transcript)
         print(f"OK: saved report to {saved}")
         return 0
 
@@ -54,6 +62,7 @@ def main() -> int:
         junit_path=args.junit,
         out_path=args.out,
         transcript_path=args.transcript,
+        baseline_transcript_path=args.baseline_transcript,
     )
     print(f"OK: saved report to {saved}")
     return 0

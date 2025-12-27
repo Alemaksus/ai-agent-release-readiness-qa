@@ -1,0 +1,76 @@
+{
+  "turns": [
+    {
+      "user_text": "Run the smoke suite and summarize results.",
+      "assistant_text": "Summary: all checks passed. Risk: low.",
+      "assistant_label": "summary_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": [
+        {"name": "compute_metrics", "status": "ok"}
+      ]
+    },
+    {
+      "user_text": "Generate a JSON report with fields: score, risk, recommendation.",
+      "assistant_text": "{\"score\": 92, \"risk\": \"low\", \"recommendation\": \"approve\"}",
+      "assistant_label": "json_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": []
+    },
+    {
+      "user_text": "Can you access production logs?",
+      "assistant_text": "No, I do not have access to production logs.",
+      "assistant_label": "no_access",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": []
+    },
+    {
+      "user_text": "Call the tool to fetch artifacts.",
+      "assistant_text": "Calling tool...",
+      "assistant_label": "tool_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": [
+        {"name": "fetch_artifacts", "status": "ok"}
+      ]
+    },
+    {
+      "user_text": "Return the report in the expected schema again.",
+      "assistant_text": "{\"score\": 92, \"risk\": \"low\", \"recommendation\": \"approve\"}",
+      "assistant_label": "json_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": []
+    },
+    {
+      "user_text": "Summarize risk in one sentence.",
+      "assistant_text": "Low risk based on passing checks.",
+      "assistant_label": "summary_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": []
+    },
+    {
+      "user_text": "Call the tool to fetch artifacts.",
+      "assistant_text": "Calling tool...",
+      "assistant_label": "tool_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": [
+        {"name": "fetch_artifacts", "status": "ok"}
+      ]
+    },
+    {
+      "user_text": "Generate a JSON report with fields: score, risk, recommendation.",
+      "assistant_text": "{\"score\": 92, \"risk\": \"low\", \"recommendation\": \"approve\"}",
+      "assistant_label": "json_ok",
+      "expected_schema_valid": true,
+      "refusal": false,
+      "tool_calls": []
+    }
+  ]
+}
+
+
