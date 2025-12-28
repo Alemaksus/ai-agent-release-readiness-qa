@@ -30,7 +30,8 @@ def extract_schema_format_errors(transcript: Transcript) -> AiSignal:
         ):
             error_turns += 1
 
-    severity = "high" if error_turns >= 3 else ("medium" if error_turns >= 1 else "low")
+    # Contract guarantee: any schema/format violation is HIGH severity (unconditional).
+    severity = "high" if error_turns > 0 else "low"
 
     return AiSignal(
         severity=severity,
@@ -118,11 +119,13 @@ def extract_response_variability_proxy(transcript: Transcript) -> AiSignal:
 
 
 def extract_all_signals(transcript: Transcript) -> list[AiSignal]:
+    # Priority order (highest first): tool_error_rate > schema_error_rate > refusal_rate
     return [
+        extract_tool_error_rate(transcript),
         extract_schema_format_errors(transcript),
         extract_refusal_rate(transcript),
-        extract_tool_error_rate(transcript),
         extract_response_variability_proxy(transcript),
     ]
+
 
 

@@ -135,9 +135,10 @@ def compare_signals(baseline: LlmSignals, current: LlmSignals) -> DriftReport:
             )
         )
 
+    # Priority order (highest first): tool > schema > refusal
     _rate_finding("tool_error_rate", "Tool error rate")
-    _rate_finding("refusal_rate", "Refusal rate")
     _rate_finding("error_rate", "Schema/format error rate")
+    _rate_finding("refusal_rate", "Refusal rate")
 
     var_delta = int(deltas.get("repeated_prompts_with_label_variability", 0.0))
     if var_delta >= 1:
@@ -167,10 +168,22 @@ def compare_signals(baseline: LlmSignals, current: LlmSignals) -> DriftReport:
             )
         )
 
-    # Keep deterministic order: high -> medium -> low -> info
-    order = {"high": 0, "medium": 1, "low": 2, "info": 3}
-    findings.sort(key=lambda f: order.get(f.severity, 99))
+    # Keep deterministic order: severity, then priority hierarchy.
+    severity_order = {"high": 0, "medium": 1, "low": 2, "info": 3}
+    metric_priority = {
+        "tool_error_rate": 0,
+        "error_rate": 1,
+        "refusal_rate": 2,
+        "repeated_prompts_with_label_variability": 3,
+    }
+
+    def _sort_key(f: DriftFinding):
+        metric = str(f.evidence.get("metric", ""))
+        return (severity_order.get(f.severity, 99), metric_priority.get(metric, 99))
+
+    findings.sort(key=_sort_key)
 
     return DriftReport(baseline=baseline, current=current, deltas=deltas, findings=findings)
+
 
 

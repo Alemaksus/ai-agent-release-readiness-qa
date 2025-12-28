@@ -13,3 +13,4 @@ def signals_to_markdown(signals: list[AiSignal]) -> str:
     return "\n".join(lines) + ("\n" if lines else "")
 
 
+

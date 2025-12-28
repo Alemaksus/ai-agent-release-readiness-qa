@@ -16,6 +16,8 @@ def build_stability_section(*, transcript_path: str | Path, baseline_transcript_
     lines: list[str] = []
     lines.append("## AI/LLM Stability Signals (optional)")
     lines.append("")
+    lines.append("_Advisory only: does not modify the deterministic core readiness score._")
+    lines.append("")
     lines.append(signals_to_markdown(current.signals).rstrip())
     lines.append("")
 
@@ -67,5 +69,6 @@ def _drift_markdown(drift: DriftReport) -> list[str]:
         out.append("- _No drift detected._")
     out.append("")
     return out
+
 
 

@@ -71,7 +71,15 @@ python -m cli.main --demo --transcript samples\llm_transcript.json --out reports
 python -m cli.main --demo --transcript samples\llm_transcript.json --baseline-transcript samples\llm_transcript_baseline.json --out reports\with_ai_drift.md
 ```
 
+See `docs/ai-semantics.md` for the advisory semantics and drift interpretation policy.
+
 ## Notes / limitations
 
 - **Deterministic only**: no LLM judging, no network calls.
 - **Current-run only**: score is computed from the provided results (no trend/history analysis).
+
+## Intended audience
+
+- QA engineers validating AI-powered systems
+- Teams shipping agentic workflows or chat-based products
+- Founders and PMs needing a deterministic pre-release signal.

@@ -21,6 +21,7 @@ def test_llm_readiness_extractors_on_sample_transcript() -> None:
     # - schema errors: turn with expected_schema_valid=false, turn missing assistant_text, turn missing expected_schema_valid
     assert schema_sig.evidence["turns_total"] == 8
     assert schema_sig.evidence["error_turns"] == 3
+    assert schema_sig.severity == "high"
     assert schema_sig.evidence["explicit_invalid"] == 1
     assert schema_sig.evidence["missing_assistant_text"] == 1
     assert schema_sig.evidence["missing_expected_schema_valid"] == 1
